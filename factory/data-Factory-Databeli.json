@@ -1,0 +1,21 @@
+{
+	"name": "data-Factory-Databeli",
+	"properties": {
+		"globalParameters": {
+			"email_recipients": {
+				"type": "string",
+				"value": "sudhanshusingh.spark@gmail.com;sudhanshu198527@gmail.com"
+			}
+		},
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "6a19ba57-5f50-4d8a-b0a6-ee27807d398e",
+		"tenantId": "f274147a-dcb1-450e-9d07-e7c95e25da7c"
+	}
+}

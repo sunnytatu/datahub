@@ -1,0 +1,131 @@
+{
+	"name": "Email_trigger",
+	"properties": {
+		"activities": [
+			{
+				"name": "Email_trigger",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/json"
+					},
+					"url": "https://prod-25.centralindia.logic.azure.com:443/workflows/42b09f9df8c543f3b5c4be7df430bdfb/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=Jzxn_-DfxxqMGhcXD0-1tsbKgd_FziLLsv4Pprc2w4Q",
+					"body": {
+						"value": "@variables('email_final')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "prep_email_subject",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "prep_email_body",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "email_final",
+					"value": {
+						"value": "{\n\t\"email_recipient\":\"@{pipeline().globalParameters.email_recipients}\",\n\t\"subject\":\"@{variables('email_subject_v')}\",\n\t\"body\":\"@{variables('body_final')}\"\n}",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "prep_email_subject",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "email_subject_v",
+					"value": {
+						"value": "Table ingestion statue for pipeline : @{pipeline().RunId}",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "prep_email_body",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "body_final",
+					"value": {
+						"value": "@replace(string(pipeline().parameters.body),'\"','')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"body": {
+				"type": "array",
+				"defaultValue": []
+			}
+		},
+		"variables": {
+			"email_subject_v": {
+				"type": "String"
+			},
+			"email_body_v": {
+				"type": "Array"
+			},
+			"email_final": {
+				"type": "String"
+			},
+			"email_body": {
+				"type": "String"
+			},
+			"body_pre": {
+				"type": "Array"
+			},
+			"body_final": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-10-03T18:46:38Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
