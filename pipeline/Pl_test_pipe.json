@@ -1,0 +1,11 @@
+{
+	"name": "Pl_test_pipe",
+	"properties": {
+		"parameters": {
+			"schema": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}
