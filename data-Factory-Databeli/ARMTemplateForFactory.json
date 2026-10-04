@@ -101,6 +101,7 @@
 					},
 					{
 						"name": "prep_email_subject",
+						"description": "hello",
 						"type": "SetVariable",
 						"dependsOn": [],
 						"policy": {
