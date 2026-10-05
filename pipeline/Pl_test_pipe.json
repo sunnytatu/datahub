@@ -42,10 +42,7 @@
 				"inputs": [
 					{
 						"referenceName": "DS_binary_source",
-						"type": "DatasetReference",
-						"parameters": {
-							"folder": "source_folder"
-						}
+						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
