@@ -1200,7 +1200,7 @@
 				],
 				"type": "BlobEventsTrigger",
 				"typeProperties": {
-					"blobPathBeginsWith": "/source/blobs/source_folder/",
+					"blobPathBeginsWith": "/source/blobs/source_folder",
 					"ignoreEmptyBlobs": true,
 					"scope": "[parameters('triggercheck_properties_typeProperties_scope')]",
 					"events": [
