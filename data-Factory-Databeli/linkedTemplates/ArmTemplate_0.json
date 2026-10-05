@@ -30,6 +30,14 @@
 		"TGR_EVENT_SIMPLE_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/1e57873b-66fd-45f4-97b0-8300878b3a80/resourceGroups/databeli_adf/providers/Microsoft.Storage/storageAccounts/databelistore"
+		},
+		"triggercheck_properties_Pl_test_pipe_parameters_file_name": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"triggercheck_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/1e57873b-66fd-45f4-97b0-8300878b3a80/resourceGroups/databeli_adf/providers/Microsoft.Storage/storageAccounts/databelistore"
 		}
 	},
 	"variables": {
@@ -204,6 +212,26 @@
 						"type": "SecureString",
 						"value": "[parameters('LS_Sql_server_password')]"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TGR_EVENT_SIMPLE')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/source/blobs/source_folder/",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('TGR_EVENT_SIMPLE_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
 				}
 			},
 			"dependsOn": []
@@ -411,10 +439,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
-					"folder": {
-						"type": "string"
-					},
-					"file_name": {
+					"container": {
 						"type": "string"
 					}
 				},
@@ -422,12 +447,7 @@
 				"type": "Binary",
 				"typeProperties": {
 					"location": {
-						"type": "AzureBlobFSLocation",
-						"folderPath": {
-							"value": "@dataset().folder",
-							"type": "Expression"
-						},
-						"fileSystem": "source"
+						"type": "AzureBlobFSLocation"
 					}
 				}
 			},
@@ -936,6 +956,10 @@
 									"type": "AzureBlobFSReadSettings",
 									"recursive": true,
 									"wildcardFolderPath": "source_folder",
+									"wildcardFileName": {
+										"value": "@pipeline().parameters.file_name",
+										"type": "Expression"
+									},
 									"deleteFilesAfterCompletion": false
 								},
 								"formatSettings": {
@@ -955,8 +979,7 @@
 								"referenceName": "DS_binary_source",
 								"type": "DatasetReference",
 								"parameters": {
-									"folder": "source_folder",
-									"file_name": "*"
+									"container": "source"
 								}
 							}
 						],
@@ -974,6 +997,11 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"file_name": {
+						"type": "string"
+					}
 				},
 				"annotations": []
 			},
@@ -1153,7 +1181,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/TGR_EVENT_SIMPLE')]",
+			"name": "[concat(parameters('factoryName'), '/triggercheck')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1165,15 +1193,16 @@
 							"referenceName": "Pl_test_pipe",
 							"type": "PipelineReference"
 						},
-						"parameters": {}
+						"parameters": {
+							"file_name": "[parameters('triggercheck_properties_Pl_test_pipe_parameters_file_name')]"
+						}
 					}
 				],
 				"type": "BlobEventsTrigger",
 				"typeProperties": {
-					"blobPathBeginsWith": "/source/blobs/source_folder",
-					"blobPathEndsWith": ".txt",
+					"blobPathBeginsWith": "/source/blobs/source_folder/",
 					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('TGR_EVENT_SIMPLE_properties_typeProperties_scope')]",
+					"scope": "[parameters('triggercheck_properties_typeProperties_scope')]",
 					"events": [
 						"Microsoft.Storage.BlobCreated"
 					]

@@ -22,6 +22,12 @@
 		},
 		"TGR_EVENT_SIMPLE_properties_typeProperties_scope": {
 			"value": "/subscriptions/1e57873b-66fd-45f4-97b0-8300878b3a80/resourceGroups/databeli_adf/providers/Microsoft.Storage/storageAccounts/databelistore"
+		},
+		"triggercheck_properties_Pl_test_pipe_parameters_file_name": {
+			"value": "@triggerBody().fileName"
+		},
+		"triggercheck_properties_typeProperties_scope": {
+			"value": "/subscriptions/1e57873b-66fd-45f4-97b0-8300878b3a80/resourceGroups/databeli_adf/providers/Microsoft.Storage/storageAccounts/databelistore"
 		}
 	}
 }

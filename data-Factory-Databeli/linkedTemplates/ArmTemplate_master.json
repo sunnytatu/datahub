@@ -31,6 +31,14 @@
 			"type": "string",
 			"defaultValue": "/subscriptions/1e57873b-66fd-45f4-97b0-8300878b3a80/resourceGroups/databeli_adf/providers/Microsoft.Storage/storageAccounts/databelistore"
 		},
+		"triggercheck_properties_Pl_test_pipe_parameters_file_name": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"triggercheck_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/1e57873b-66fd-45f4-97b0-8300878b3a80/resourceGroups/databeli_adf/providers/Microsoft.Storage/storageAccounts/databelistore"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -75,6 +83,12 @@
 					},
 					"TGR_EVENT_SIMPLE_properties_typeProperties_scope": {
 						"value": "[parameters('TGR_EVENT_SIMPLE_properties_typeProperties_scope')]"
+					},
+					"triggercheck_properties_Pl_test_pipe_parameters_file_name": {
+						"value": "[parameters('triggercheck_properties_Pl_test_pipe_parameters_file_name')]"
+					},
+					"triggercheck_properties_typeProperties_scope": {
+						"value": "[parameters('triggercheck_properties_typeProperties_scope')]"
 					}
 				}
 			},
