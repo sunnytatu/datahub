@@ -44,8 +44,7 @@
 						"referenceName": "DS_binary_source",
 						"type": "DatasetReference",
 						"parameters": {
-							"folder": "source_folder",
-							"file_name": "*"
+							"folder": "source_folder"
 						}
 					}
 				],
