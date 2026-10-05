@@ -27,6 +27,10 @@
 			"type": "string",
 			"defaultValue": "kickadmin"
 		},
+		"TGR_EVENT_SIMPLE_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/1e57873b-66fd-45f4-97b0-8300878b3a80/resourceGroups/databeli_adf/providers/Microsoft.Storage/storageAccounts/databelistore"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -68,6 +72,9 @@
 					},
 					"LS_Sql_server_properties_typeProperties_userName": {
 						"value": "[parameters('LS_Sql_server_properties_typeProperties_userName')]"
+					},
+					"TGR_EVENT_SIMPLE_properties_typeProperties_scope": {
+						"value": "[parameters('TGR_EVENT_SIMPLE_properties_typeProperties_scope')]"
 					}
 				}
 			},

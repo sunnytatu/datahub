@@ -26,6 +26,10 @@
 		"LS_Sql_server_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "kickadmin"
+		},
+		"TGR_EVENT_SIMPLE_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/1e57873b-66fd-45f4-97b0-8300878b3a80/resourceGroups/databeli_adf/providers/Microsoft.Storage/storageAccounts/databelistore"
 		}
 	},
 	"variables": {
@@ -779,6 +783,77 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Pl_test_pipe')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Source-target-copy",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "BinarySource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"wildcardFolderPath": "source_folder",
+									"deleteFilesAfterCompletion": false
+								},
+								"formatSettings": {
+									"type": "BinaryReadSettings"
+								}
+							},
+							"sink": {
+								"type": "BinarySink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_binary_source",
+								"type": "DatasetReference",
+								"parameters": {
+									"folder": "source_folder",
+									"file_name": "*"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_binary_target",
+								"type": "DatasetReference",
+								"parameters": {
+									"container": "target",
+									"folder": "target-folder"
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_binary_source')]",
+				"[concat(variables('factoryId'), '/datasets/DS_binary_target')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DS_ADLS_Gen2')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1076,6 +1151,37 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TGR_EVENT_SIMPLE')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "Pl_test_pipe",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/source/blobs/source_folder",
+					"blobPathEndsWith": ".txt",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('TGR_EVENT_SIMPLE_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Pl_test_pipe')]"
+			]
 		}
 	]
 }

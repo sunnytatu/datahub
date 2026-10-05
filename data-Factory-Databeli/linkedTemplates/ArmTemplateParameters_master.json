@@ -20,6 +20,9 @@
 		"LS_Sql_server_properties_typeProperties_userName": {
 			"value": "kickadmin"
 		},
+		"TGR_EVENT_SIMPLE_properties_typeProperties_scope": {
+			"value": "/subscriptions/1e57873b-66fd-45f4-97b0-8300878b3a80/resourceGroups/databeli_adf/providers/Microsoft.Storage/storageAccounts/databelistore"
+		},
 		"containerUri": {
 			"value": ""
 		},
