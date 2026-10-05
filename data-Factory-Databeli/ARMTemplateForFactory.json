@@ -814,7 +814,7 @@
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
 									"recursive": true,
-									"wildcardFolderPath": "source_folder",
+									"wildcardFolderPath": "source-folder",
 									"wildcardFileName": {
 										"value": "@pipeline().parameters.file_name",
 										"type": "Expression"
@@ -1200,7 +1200,7 @@
 				],
 				"type": "BlobEventsTrigger",
 				"typeProperties": {
-					"blobPathBeginsWith": "/source/blobs/source_folder",
+					"blobPathBeginsWith": "/source/blobs/source-folder/",
 					"ignoreEmptyBlobs": true,
 					"scope": "[parameters('triggercheck_properties_typeProperties_scope')]",
 					"events": [
