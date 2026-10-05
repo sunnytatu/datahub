@@ -8,6 +8,9 @@
 				"pipelineReference": {
 					"referenceName": "Pl_test_pipe",
 					"type": "PipelineReference"
+				},
+				"parameters": {
+					"file_name": "@triggerBody().fileName"
 				}
 			}
 		],
