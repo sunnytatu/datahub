@@ -1,0 +1,27 @@
+{
+	"name": "spl_trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Pl_base_pipe",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"file_name": "@triggerBody().fileName"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/source/blobs/source-folder",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/1e57873b-66fd-45f4-97b0-8300878b3a80/resourceGroups/databeli_adf/providers/Microsoft.Storage/storageAccounts/databelistore",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
