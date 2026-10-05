@@ -1,0 +1,24 @@
+{
+	"name": "triggercheck",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Pl_test_pipe",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/source/blobs/source_folder",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/1e57873b-66fd-45f4-97b0-8300878b3a80/resourceGroups/databeli_adf/providers/Microsoft.Storage/storageAccounts/databelistore",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
